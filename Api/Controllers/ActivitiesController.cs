@@ -50,7 +50,7 @@ namespace SiliconPower.Controllers
         public async Task<IActionResult> Get([FromRoute] Guid activityId, [FromQuery] DateTime chosenDay)
         {
             /* TODO:
-             * -    Get all available information in database on the chosen activity
+             * -    Get all available information in database on the chosen activity asd
              * -    list all availabilities for the chosen day
              * -    list top 3 reviews to lighten the payload
              * -    get average score for activity
