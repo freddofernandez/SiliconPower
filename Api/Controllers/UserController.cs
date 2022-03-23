@@ -74,7 +74,7 @@ namespace SiliconPower.Api.Controllers
             /*
              * TODO:
              * Check with TOKEN if identity is valid 
-             * Update Phone from IdentityDb Main table
+             * Update Phone from IdentityDb Main table 
              * Update AdditionalData from IdentityDb additional table
              */
 
