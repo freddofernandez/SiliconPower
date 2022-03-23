@@ -8,6 +8,6 @@ namespace SiliconPower.Api.DataTransferObjects.Requests
     public class PersonalInformationUpdateRequest
     {
         public string PhoneNumber { get; set; }
-        public UserAdditionalInformation AdditionalInformation { get; set; 
+        public UserAdditionalInformation AdditionalInformation { get; set; }
     }
 }
