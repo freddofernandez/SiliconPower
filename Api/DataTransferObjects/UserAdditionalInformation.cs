@@ -13,6 +13,5 @@ namespace SiliconPower.Api.DataTransferObjects
         public string IdentificationNumber { get; set; }
         public LocationObject Location { get; set; }
         public PaymentMethodEnum PreferredPaymentMethod { get; set; }
-        public string CreditCardIdentifier { get; set; }
     }
 }

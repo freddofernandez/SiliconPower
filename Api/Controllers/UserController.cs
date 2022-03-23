@@ -21,6 +21,13 @@ namespace SiliconPower.Api.Controllers
             this.userManager = userManager;
         }
 
+        /// <summary>
+        /// PUT /api/user/register
+        /// Alternative API Method to the Razor Page Register Logic
+        /// Catches minimal user Data to initialize registry in UserTable
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("register")]
         public async Task<IActionResult> RegisterUserAsync([FromBody] RegistrationRequest request)
@@ -53,6 +60,11 @@ namespace SiliconPower.Api.Controllers
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// GET /api/user/personal-information
+        /// Returns User visible information
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("personal-information")]
         [ProducesResponseType(typeof(UserInformationResponse), StatusCodes.Status200OK)]
@@ -67,6 +79,13 @@ namespace SiliconPower.Api.Controllers
             return new JsonResult(new UserInformationResponse());
         }
 
+        /// <summary>
+        /// PATCH /api/user/personal-information
+        /// Let's the user update the non-core user information
+        /// Fields could be left empty, the validation of existing or non-existing fields is done by the backend
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPatch]
         [Route("personal-information")]
         public async Task<IActionResult> UpdatePersonalInformation([FromBody] PersonalInformationUpdateRequest request)
@@ -74,8 +93,28 @@ namespace SiliconPower.Api.Controllers
             /*
              * TODO:
              * Check with TOKEN if identity is valid 
-             * Update Phone from IdentityDb Main table 
-             * Update AdditionalData from IdentityDb additional table
+             * Update Phone from AspNetUser table 
+             * Update AdditionalData from AdditionalUserInformation (checking for nulls in Request to ignore)
+             */
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// PATCH /api/user/update-password
+        /// </summary>
+        /// <param name="oldPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        [HttpPatch]
+        [Route("update-password")]
+        public async Task<IActionResult> UpdatePassword([FromQuery] string oldPassword, string newPassword)
+        {
+            /*
+             * TODO:
+             * Check with TOKEN if identity is valid 
+             * Verify integrity of oldPassword
+             * if ok, change it to the newPassword
              */
 
             return Ok();
