@@ -12,26 +12,30 @@ using SiliconPower.ViewModel;
 
 namespace SiliconPower.Pages
 {
-    public class RegisterModel : PageModel
+    public class RegisterWithApiModel : PageModel
     {
+
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        private readonly IHttpContextAccessor context;
 
         [BindProperty]
         public RegisterViewModel Model { get; set; }
 
+        public SignInManager<IdentityUser> SignInManager => signInManager;
 
-        public RegisterModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public RegisterWithApiModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IHttpContextAccessor context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.context = context;
         }
 
         public void OnGet()
         {
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostHttpAsync()
         {
             if (ModelState.IsValid)
             {
@@ -40,26 +44,27 @@ namespace SiliconPower.Pages
                     UserName = Model.Email,
                     Email = Model.Email,
                     PhoneNumber = Model.PhoneNumber,
-                    
+
                 };
 
-                var result = await userManager.CreateAsync(user, Model.Password);
 
-                if (result.Succeeded)
+                var request = context.HttpContext.Request;
+                var baseUrl = $"{request.Scheme}://{request.Host}";
+
+                HttpClient client = new();
+                HttpResponseMessage response = await client.PutAsJsonAsync($"{baseUrl}/api/user/register", Model);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    await signInManager.SignInAsync(user, false);
+                    await SignInManager.SignInAsync(user, false);
                     return RedirectToPage("Index");
                 }
-
-                foreach(var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
+                
+                ModelState.AddModelError("", response.ReasonPhrase);   
             }
 
             return Page();
         }
-
-        
     }
 }
+

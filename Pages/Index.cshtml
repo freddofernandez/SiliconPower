@@ -1,10 +1,31 @@
 ﻿@page
 @model IndexModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+<div class="d-flex h-300 text-center">
+    <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <h1>Welcome @User.Identity.Name !</h1>
+        <p class="lead">Just joking... there's no app... yet... <br /> But it's been fun right?</p>
+    </div>
 </div>
+}
+else
+{
+<div class="d-flex h-300 text-center">
+    <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <h1>Welcome to Silicon Power!</h1>
+        <p class="lead">To enter the full application you must first create an account!</p>
+        <p class="lead">
+            <a href="/register" class="btn btn-lg btn-primary">Join us now!</a>
+            <a href="/login" class="btn btn-lg">Already have an account</a>
+    </div>
+</div>
+}
