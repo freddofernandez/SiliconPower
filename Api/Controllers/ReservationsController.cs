@@ -101,7 +101,7 @@ namespace SiliconPower.Api.Controllers
         /// <returns></returns>
         [Route("{reservationId}/review")]
         [HttpDelete]
-        public async Task<IActionResult> CreateReview([FromRoute] Guid reservationId)
+        public async Task<IActionResult> DeleteReview([FromRoute] Guid reservationId)
         {
             /*TODO:
              * -    Validate user Token
@@ -109,7 +109,7 @@ namespace SiliconPower.Api.Controllers
              * -    Update Activity Average Score
              */
 
-            return new JsonResult(new ReviewObject());
+            return Ok();
         }
 
 
